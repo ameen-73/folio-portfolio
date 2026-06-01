@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
 import type { Project } from "@/lib/site";
 
 const emptyProject = (): Project => ({
@@ -131,8 +131,8 @@ export default function AdminProjectsPage() {
                             value={project.title}
                             onChange={(v) => updateProject(index, { title: v })}
                         />
-                        <Input
-                            label="Image path"
+                        <ImageUpload
+                            label="Project Image"
                             value={project.image}
                             onChange={(v) => updateProject(index, { image: v })}
                         />
@@ -254,6 +254,99 @@ function Textarea({
                 onChange={(e) => onChange(e.target.value)}
                 className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-2 text-sm text-[var(--text)]"
             />
+        </div>
+    );
+}
+
+function ImageUpload({
+    label,
+    value,
+    onChange,
+}: {
+    label: string;
+    value: string;
+    onChange: (v: string) => void;
+}) {
+    const [uploading, setUploading] = useState(false);
+    const [error, setError] = useState("");
+
+    const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        // basic validation
+        if (!file.type.startsWith("image/")) {
+            setError("Please upload an image file.");
+            return;
+        }
+
+        setUploading(true);
+        setError("");
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const res = await fetch("/api/admin/upload", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                throw new Error(err.error ?? "Failed to upload image");
+            }
+
+            const data = await res.json();
+            onChange(data.url);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Upload failed");
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    return (
+        <div>
+            <label className="block text-xs font-medium text-[var(--text-muted)]">
+                {label}
+            </label>
+            <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-start">
+                <div className="relative aspect-video w-32 shrink-0 overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] flex items-center justify-center">
+                    {value ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                            src={value}
+                            alt="Project preview"
+                            className="h-full w-full object-cover"
+                        />
+                    ) : (
+                        <span className="text-[10px] text-[var(--text-muted)]">No image</span>
+                    )}
+                </div>
+                <div className="flex-1 space-y-2 w-full">
+                    <input
+                        type="text"
+                        value={value}
+                        onChange={(e) => onChange(e.target.value)}
+                        placeholder="/images/projects/placeholder.webp"
+                        className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-2 text-sm text-[var(--text)] focus:border-[var(--accent)] focus:outline-none"
+                    />
+                    <div className="flex items-center gap-3">
+                        <label className="cursor-pointer inline-flex items-center justify-center rounded-full border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-1.5 text-xs font-medium text-[var(--text)] hover:bg-[var(--border)] transition">
+                            {uploading ? "Uploading..." : "Upload Image"}
+                            <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={handleFileChange}
+                                disabled={uploading}
+                            />
+                        </label>
+                        {error && <span className="text-xs text-red-500 font-medium">{error}</span>}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

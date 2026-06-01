@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
-import { services } from "@/lib/projects";
+import { services } from "@/lib/content";
 
 export function Hero() {
     return (

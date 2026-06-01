@@ -1,5 +1,5 @@
 import { Container } from "@/components/ui/Container";
-import { trustLogos } from "@/lib/projects";
+import { trustLogos } from "@/lib/content";
 
 export function TrustBar() {
     return (

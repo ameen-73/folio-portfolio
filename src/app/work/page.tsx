@@ -1,14 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { featuredProjects } from "@/lib/projects";
+import { getProjects } from "@/lib/data";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
     title: "Projects — Folioblox",
     description: "Selected brand, packaging, and creative direction work.",
 };
 
-export default function WorkIndexPage() {
+export default async function WorkIndexPage() {
+    const projects = await getProjects();
+
     return (
         <section className="pt-28 pb-24">
             <Container>
@@ -21,7 +25,7 @@ export default function WorkIndexPage() {
                 </p>
 
                 <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    {featuredProjects.map((project) => (
+                    {projects.map((project) => (
                         <Link
                             key={project.slug}
                             href={`/work/${project.slug}`}

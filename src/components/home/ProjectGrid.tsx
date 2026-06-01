@@ -1,14 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { featuredProjects } from "@/lib/projects";
+import type { Project } from "@/lib/site";
 
-export function ProjectGrid() {
+export function ProjectGrid({ projects }: { projects: Project[] }) {
   return (
     <section className="pb-24">
       <Container>
         <div className="grid gap-6 md:grid-cols-3">
-          {featuredProjects.map((project) => (
+          {projects.map((project) => (
             <Link
               key={project.slug}
               href={`/work/${project.slug}`}

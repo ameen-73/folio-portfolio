@@ -2,19 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
-import { featuredProjects, getProjectBySlug } from "@/lib/projects";
+import { getProjectBySlug } from "@/lib/data";
+
+export const dynamic = "force-dynamic";
 
 type Props = {
     params: Promise<{ slug: string }>;
 };
 
-export async function generateStaticParams() {
-    return featuredProjects.map((p) => ({ slug: p.slug }));
-}
-
 export async function generateMetadata({ params }: Props) {
     const { slug } = await params;
-    const project = getProjectBySlug(slug);
+    const project = await getProjectBySlug(slug);
     if (!project) return { title: "Project not found" };
     return {
         title: `${project.title} — Folioblox`,
@@ -24,7 +22,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ProjectCaseStudyPage({ params }: Props) {
     const { slug } = await params;
-    const project = getProjectBySlug(slug);
+    const project = await getProjectBySlug(slug);
     if (!project) notFound();
 
     return (
