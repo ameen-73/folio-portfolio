@@ -3,25 +3,46 @@ import { Inter } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SiteProvider } from "@/contexts/SiteContext";
+import { getSite } from "@/lib/data";
+import { whatsappUrl } from "@/lib/whatsapp";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
-export const metadata: Metadata = {
-    title: "Folioblox — Creative Director",
-    description: "Brand strategy, identity, packaging, and creative direction.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const site = await getSite();
+    return {
+        title: `${site.name} — ${site.title}`,
+        description: site.tagline,
+    };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{ children: React.ReactNode }>) {
+    const site = await getSite();
+
     return (
         <html lang="en" suppressHydrationWarning>
-            <body className={`${inter.variable} flex min-h-screen flex-col font-sans antialiased`}>
+            <body
+                className={`${inter.variable} flex min-h-screen flex-col font-sans antialiased`}
+            >
                 <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-                    <Header />
-                    <main className="flex-1">{children}</main>
-                    <Footer />
+                    <SiteProvider site={site}>
+                        <Header />
+                        <main className="flex-1">{children}</main>
+                        <Footer />
+                        <a
+                            href={whatsappUrl(site)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Chat on WhatsApp"
+                            className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-2xl text-white shadow-lg transition hover:scale-105"
+                        >
+                            💬
+                        </a>
+                    </SiteProvider>
                 </ThemeProvider>
             </body>
         </html>
