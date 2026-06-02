@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState, ChangeEvent } from "react";
 import type { Project } from "@/lib/site";
+import { PROJECT_CATEGORIES } from "@/lib/content";
 
 const emptyProject = (): Project => ({
     slug: "",
@@ -11,6 +12,8 @@ const emptyProject = (): Project => ({
     alt: "",
     role: "",
     year: new Date().getFullYear().toString(),
+    category: PROJECT_CATEGORIES[0],
+    featured: false,
     tags: [],
     summary: "",
     problem: "",
@@ -60,6 +63,8 @@ export default function AdminProjectsPage() {
         const cleaned = projects.map((p) => ({
             ...p,
             slug: p.slug.trim().toLowerCase().replace(/\s+/g, "-"),
+            category: p.category.trim() || PROJECT_CATEGORIES[0],
+            featured: Boolean(p.featured),
             tags: Array.isArray(p.tags)
                 ? p.tags
                 : String(p.tags)
@@ -153,6 +158,19 @@ export default function AdminProjectsPage() {
                                 onChange={(v) => updateProject(index, { year: v })}
                             />
                         </div>
+                        <div className="grid gap-3 sm:grid-cols-2">
+                            <Select
+                                label="Category"
+                                value={project.category}
+                                options={[...PROJECT_CATEGORIES]}
+                                onChange={(v) => updateProject(index, { category: v })}
+                            />
+                            <Checkbox
+                                label="Featured on homepage"
+                                checked={project.featured}
+                                onChange={(v) => updateProject(index, { featured: v })}
+                            />
+                        </div>
                         <Input
                             label="Tags (comma-separated)"
                             value={
@@ -231,6 +249,59 @@ function Input({
                 className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-2 text-sm text-[var(--text)]"
             />
         </div>
+    );
+}
+
+function Select({
+    label,
+    value,
+    options,
+    onChange,
+}: {
+    label: string;
+    value: string;
+    options: string[];
+    onChange: (v: string) => void;
+}) {
+    return (
+        <div>
+            <label className="block text-xs font-medium text-[var(--text-muted)]">
+                {label}
+            </label>
+            <select
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-2 text-sm text-[var(--text)]"
+            >
+                {options.map((option) => (
+                    <option key={option} value={option}>
+                        {option}
+                    </option>
+                ))}
+            </select>
+        </div>
+    );
+}
+
+function Checkbox({
+    label,
+    checked,
+    onChange,
+}: {
+    label: string;
+    checked: boolean;
+    onChange: (v: boolean) => void;
+}) {
+    return (
+        <label className="flex items-end gap-2 pb-2">
+            <input
+                type="checkbox"
+                checked={checked}
+                onChange={(e) => onChange(e.target.checked)}
+                className="h-4 w-4 rounded border-[var(--border)] accent-[var(--accent)]"
+            />
+            <span className="text-sm text-[var(--text)]">{label}</span>
+        </label>
     );
 }
 

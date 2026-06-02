@@ -7,7 +7,7 @@
     --text-muted: #52525b;
     --border: #e4e4e7;
     --accent: #ff5c1a;
-    --hero-gradient: linear-gradient(160deg, #ffb347 0%, #ff5c1a 45%, #e63b00 100%);
+    --hero-gradient: linear-gradient(160deg, #6e6e6e 0%, #444444 45%, #070707 100%);
 }
 
 .dark {
@@ -30,3 +30,14 @@
         color: var(--text);
     }
 }
+
+@keyframes trust-marquee {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+

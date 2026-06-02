@@ -27,6 +27,22 @@ export default async function ContactPage() {
                 </p>
 
                 <div className="mt-10 space-y-6">
+                    {site.address && (
+                        <div>
+                            <p className="text-sm font-medium text-[var(--text-muted)]">Address</p>
+                            <p className="mt-2 whitespace-pre-line text-lg text-[var(--text)]">
+                                {site.address}
+                            </p>
+                        </div>
+                    )}
+
+                    {site.location && (
+                        <div>
+                            <p className="text-sm font-medium text-[var(--text-muted)]">Location</p>
+                            <p className="mt-1 text-lg text-[var(--text)]">{site.location}</p>
+                        </div>
+                    )}
+
                     <div>
                         <p className="text-sm font-medium text-[var(--text-muted)]">Email</p>
                         <a
@@ -36,6 +52,18 @@ export default async function ContactPage() {
                             {site.email}
                         </a>
                     </div>
+
+                    {site.phone && (
+                        <div>
+                            <p className="text-sm font-medium text-[var(--text-muted)]">Phone</p>
+                            <a
+                                href={`tel:${site.phone.replace(/\s/g, "")}`}
+                                className="mt-1 block text-xl font-medium text-[var(--text)] transition hover:text-[var(--accent)]"
+                            >
+                                {site.phone}
+                            </a>
+                        </div>
+                    )}
 
                     <div>
                         <p className="text-sm font-medium text-[var(--text-muted)]">WhatsApp</p>

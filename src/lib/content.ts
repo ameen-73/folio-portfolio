@@ -5,9 +5,18 @@ export const services = [
     { num: "04", label: "Creative Direction" },
 ];
 
-export const trustLogos = [
-    { name: "Supa Blox", icon: "◆" },
-    { name: "Hype Blox", icon: "◇" },
-    { name: "Frame Blox", icon: "○" },
-    { name: "Ultra Blox", icon: "□" },
-];
+export const PROJECT_CATEGORIES = [
+    "Branding",
+    "Packaging",
+    "Campaign",
+    "Identity",
+    "Typography",
+    "Logo Design",
+    "Social Media",
+    "Photography",
+    "Art Direction",
+    "ui/ux",
+] as const;
+
+export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
+

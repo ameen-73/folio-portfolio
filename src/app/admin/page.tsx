@@ -13,7 +13,23 @@ export default function AdminDashboardPage() {
                         href="/admin/settings"
                         className="block rounded-xl border border-[var(--border)] px-6 py-4 hover:ring-1 hover:ring-[var(--accent)]"
                     >
-                        Site settings (name, email, WhatsApp)
+                        Site settings (name, address, contact)
+                    </Link>
+                </li>
+                <li>
+                    <Link
+                        href="/admin/testimonials"
+                        className="block rounded-xl border border-[var(--border)] px-6 py-4 hover:ring-1 hover:ring-[var(--accent)]"
+                    >
+                        Testimonials
+                    </Link>
+                </li>
+                <li>
+                    <Link
+                        href="/admin/impact-stats"
+                        className="block rounded-xl border border-[var(--border)] px-6 py-4 hover:ring-1 hover:ring-[var(--accent)]"
+                    >
+                        Impact stats (above Behind the Designs)
                     </Link>
                 </li>
                 <li>
@@ -22,6 +38,14 @@ export default function AdminDashboardPage() {
                         className="block rounded-xl border border-[var(--border)] px-6 py-4 hover:ring-1 hover:ring-[var(--accent)]"
                     >
                         Projects
+                    </Link>
+                </li>
+                <li>
+                    <Link
+                        href="/admin/trust-logos"
+                        className="block rounded-xl border border-[var(--border)] px-6 py-4 hover:ring-1 hover:ring-[var(--accent)]"
+                    >
+                        Trusted by logos (marquee)
                     </Link>
                 </li>
             </ul>

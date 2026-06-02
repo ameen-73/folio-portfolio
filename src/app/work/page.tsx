@@ -1,6 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { WorkProjectGrid } from "@/components/work/WorkProjectGrid";
 import { getProjects } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
@@ -24,36 +23,7 @@ export default async function WorkIndexPage() {
                     Brand, packaging, and campaign work — click a project for the full case study.
                 </p>
 
-                <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    {projects.map((project) => (
-                        <Link
-                            key={project.slug}
-                            href={`/work/${project.slug}`}
-                            className="group overflow-hidden rounded-3xl bg-[var(--bg-elevated)] ring-1 ring-[var(--border)] transition hover:ring-[var(--accent)]"
-                        >
-                            <div className="relative aspect-[4/5] overflow-hidden">
-                                <Image
-                                    src={project.image}
-                                    alt={project.alt}
-                                    fill
-                                    className="object-cover transition duration-500 group-hover:scale-105"
-                                    sizes="(max-width: 768px) 100vw, 33vw"
-                                />
-                            </div>
-                            <div className="p-6">
-                                <p className="text-sm text-[var(--text-muted)]">
-                                    {project.role} · {project.year}
-                                </p>
-                                <h2 className="mt-1 text-xl font-semibold text-[var(--text)]">
-                                    {project.title}
-                                </h2>
-                                <p className="mt-2 line-clamp-2 text-sm text-[var(--text-muted)]">
-                                    {project.summary}
-                                </p>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
+                <WorkProjectGrid projects={projects} />
             </Container>
         </section>
     );

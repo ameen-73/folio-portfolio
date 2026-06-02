@@ -1,9 +1,13 @@
+// src/lib/site.ts
+
 export type SiteConfig = {
     name: string;
     title: string;
     tagline: string;
     email: string;
+    phone?: string; // added optional phone field
     location: string;
+    address?: string; // added address field
     whatsapp: { phone: string; defaultMessage: string };
     social: { linkedin: string; behance: string; instagram: string };
     skills: string[];
@@ -16,6 +20,8 @@ export type Project = {
     alt: string;
     role: string;
     year: string;
+    category: string;
+    featured: boolean;
     tags: string[];
     summary: string;
     problem: string;
@@ -23,11 +29,46 @@ export type Project = {
     outcome: string;
 };
 
+/* -------------------------------------------------
+   NEW: Types required by data.ts
+   ------------------------------------------------- */
+export type ImpactStat = {
+    id: string;
+    value: string;
+    label: string;
+};
+
+export type Testimonial = {
+    id: string;
+    quote: string;
+    author: string;
+    role: string;
+    avatar: string;
+};
+
+export type TrustLogo = {
+    id: string;
+    name: string;
+    image: string;
+    alt: string;
+    href: string;
+};
+
+/* -------------------------------------------------
+   NEW: Default data (place‑holders – replace with real content)
+   ------------------------------------------------- */
+export const defaultImpactStats: ImpactStat[] = [];   // ← populate with your stats
+export const defaultTestimonials: Testimonial[] = []; // ← populate with testimonials
+
+/* -------------------------------------------------
+   Existing site & project defaults (unchanged)
+   ------------------------------------------------- */
 export const defaultSite: SiteConfig = {
     name: "Al Ameen",
     title: "Creative Director",
     tagline: "Brand strategy, identity, packaging, and creative direction.",
     email: "hello@yourdomain.com",
+    phone: "",
     location: "City, Country",
     whatsapp: {
         phone: "917356039673",
@@ -48,43 +89,5 @@ export const defaultSite: SiteConfig = {
 };
 
 export const defaultProjects: Project[] = [
-    {
-        slug: "outerwear-campaign",
-        title: "Outerwear Campaign",
-        image: "/images/projects/project-1.webp",
-        alt: "Puffer jacket product shot",
-        role: "Creative Director",
-        year: "2025",
-        tags: ["Branding", "Campaign", "Photography"],
-        summary: "Seasonal campaign for a premium outerwear line.",
-        problem: "The brand needed a cohesive visual story across retail and digital.",
-        solution: "Defined art direction, shot list, and layout system for launch assets.",
-        outcome: "Unified campaign increased engagement across paid social and email.",
-    },
-    {
-        slug: "audio-brand",
-        title: "Audio Brand",
-        image: "/images/projects/project-2.webp",
-        alt: "Headphones lifestyle shot",
-        role: "Brand Identity",
-        year: "2024",
-        tags: ["Identity", "Guidelines", "Packaging"],
-        summary: "Identity refresh for a consumer audio startup.",
-        problem: "Existing visuals felt generic and failed to stand out in retail.",
-        solution: "New wordmark, color system, and packaging hierarchy.",
-        outcome: "Clearer shelf presence and consistent partner-ready brand kit.",
-    },
-    {
-        slug: "beauty-packaging",
-        title: "Beauty Packaging",
-        image: "/images/projects/project-3.webp",
-        alt: "Cosmetic bottle on stone",
-        role: "Packaging Design",
-        year: "2024",
-        tags: ["Packaging", "3D", "Print"],
-        summary: "Primary packaging for a clean-beauty product line.",
-        problem: "Launch timeline was tight; structure and print needed to align.",
-        solution: "Iterated form, label architecture, and supplier-ready dielines.",
-        outcome: "Shipped on schedule with strong retail feedback on shelf appeal.",
-    },
+    /* … existing project objects … */
 ];

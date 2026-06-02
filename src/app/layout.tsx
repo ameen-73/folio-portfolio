@@ -30,7 +30,7 @@ export default async function RootLayout({
             <body
                 className={`${inter.variable} flex min-h-screen flex-col font-sans antialiased`}
             >
-                <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+                <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
                     <SiteProvider site={site}>
                         <Header />
                         <main className="flex-1">{children}</main>

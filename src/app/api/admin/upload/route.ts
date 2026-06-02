@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/admin-auth";
-import { uploadProjectImage } from "@/lib/upload";
+import { uploadImage } from "@/lib/upload";
 
 export async function POST(request: Request) {
     if (!(await isAdmin())) {
@@ -15,7 +15,10 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
         }
 
-        const url = await uploadProjectImage(file);
+        const folder = formData.get("folder");
+        const uploadFolder =
+            folder === "trust-logos" ? "trust-logos" : "projects";
+        const url = await uploadImage(file, uploadFolder);
         return NextResponse.json({ url });
     } catch (error) {
         console.error("Upload error:", error);

@@ -1,26 +1,21 @@
 import { Container } from "@/components/ui/Container";
-import { trustLogos } from "@/lib/content";
+import { LogoMarquee } from "@/components/home/LogoMarquee";
+import { getTrustLogos } from "@/lib/data";
 
-export function TrustBar() {
+export async function TrustBar() {
+    const logos = await getTrustLogos();
+
+    if (logos.length === 0) {
+        return null;
+    }
+
     return (
-        <section className="border-y border-[var(--border)] bg-[var(--bg-elevated)] py-10">
-            <Container className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-                <p className="text-sm text-[var(--text-muted)]">
+        <section className="border-y border-[var(--border)] bg-[var(--bg-elevated)] py-10 md:py-12">
+            <Container>
+                <p className="text-center text-sm text-[var(--text-muted)] md:text-left">
                     Trusted by Brands I&apos;ve Helped Shape
                 </p>
-                <ul className="flex flex-wrap items-center gap-8 md:gap-12">
-                    {trustLogos.map((logo) => (
-                        <li
-                            key={logo.name}
-                            className="flex items-center gap-2 text-sm font-medium text-[var(--text)] opacity-80"
-                        >
-                            <span aria-hidden className="text-[var(--accent)]">
-                                {logo.icon}
-                            </span>
-                            {logo.name}
-                        </li>
-                    ))}
-                </ul>
+                <LogoMarquee logos={logos} />
             </Container>
         </section>
     );

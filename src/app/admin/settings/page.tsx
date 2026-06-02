@@ -82,10 +82,20 @@ export default function AdminSettingsPage() {
 
             <form onSubmit={handleSubmit} className="mt-8 space-y-5">
                 <Field label="Name" value={site.name} onChange={(v) => setSite({ ...site, name: v })} />
+                {/* Phone field removed – use WhatsApp phone field instead */}
                 <Field label="Title" value={site.title} onChange={(v) => setSite({ ...site, title: v })} />
                 <Field label="Tagline" value={site.tagline} onChange={(v) => setSite({ ...site, tagline: v })} />
                 <Field label="Email" value={site.email} onChange={(v) => setSite({ ...site, email: v })} />
-                <Field label="Location" value={site.location} onChange={(v) => setSite({ ...site, location: v })} />
+                <TextAreaField
+                    label="Address (shown on homepage contact section)"
+                    value={site.address ?? ''}
+                    onChange={(v) => setSite({ ...site, address: v })}
+                />
+                <Field
+                    label="Location (city / region)"
+                    value={site.location}
+                    onChange={(v) => setSite({ ...site, location: v })}
+                />
 
                 <h2 className="pt-4 text-lg font-semibold text-[var(--text)]">WhatsApp</h2>
                 <Field
@@ -158,6 +168,28 @@ function Field({
         <div>
             <label className="block text-sm font-medium text-[var(--text-muted)]">{label}</label>
             <input
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2 text-[var(--text)]"
+            />
+        </div>
+    );
+}
+
+function TextAreaField({
+    label,
+    value,
+    onChange,
+}: {
+    label: string;
+    value: string;
+    onChange: (v: string) => void;
+}) {
+    return (
+        <div>
+            <label className="block text-sm font-medium text-[var(--text-muted)]">{label}</label>
+            <textarea
+                rows={4}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2 text-[var(--text)]"
